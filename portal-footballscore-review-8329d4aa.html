@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+  <title>足球比分 · 知识库入口</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #f7fafd;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      color: #1a2a3a;
+      padding: 1.5rem 1rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .page-wrap {
+      max-width: 1180px;
+      width: 100%;
+    }
+
+    /* 网格卡片体系 –– 蓝绿点缀 */
+    .grid-card {
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 1.75rem 1.5rem;
+      box-shadow: 0 6px 16px rgba(0, 40, 60, 0.04), 0 2px 4px rgba(0, 50, 70, 0.02);
+      transition: transform 0.15s ease, box-shadow 0.2s ease;
+      border: 1px solid #e4edf2;
+    }
+
+    .grid-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(20, 100, 110, 0.08);
+      border-color: #b8dbe0;
+    }
+
+    /* 目录感布局：两列 / 三列网格 */
+    .knowledge-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      margin-top: 1.8rem;
+    }
+
+    @media (min-width: 640px) {
+      .knowledge-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 960px) {
+      .knowledge-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    /* hero 区 – 温和入口感 */
+    .hero-module {
+      background: linear-gradient(145deg, #eaf4f5 0%, #d4e9ed 100%);
+      border-radius: 32px;
+      padding: 2.5rem 2rem 2.2rem;
+      margin-bottom: 2rem;
+      border: 1px solid #c3dde2;
+      position: relative;
+    }
+
+    .hero-module h1 {
+      font-size: 2.1rem;
+      font-weight: 550;
+      letter-spacing: -0.01em;
+      color: #053342;
+      line-height: 1.2;
+      margin-bottom: 0.6rem;
+    }
+
+    .hero-tagline {
+      font-size: 1.1rem;
+      color: #1b4b57;
+      max-width: 38rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-link-sentence {
+      font-size: 1rem;
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(2px);
+      display: inline-block;
+      padding: 0.7rem 1.5rem;
+      border-radius: 48px;
+      border: 1px solid rgba(60, 130, 140, 0.2);
+      color: #01323f;
+    }
+
+    .hero-link-sentence a {
+      color: #0f5b68;
+      text-decoration: none;
+      font-weight: 550;
+      border-bottom: 1.5px solid #3e9daa;
+      padding-bottom: 1px;
+      transition: border-color 0.2s;
+    }
+
+    .hero-link-sentence a:hover {
+      border-bottom-color: #bce4ea;
+      color: #09444f;
+    }
+
+    /* 卡片标题 */
+    .card-title {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #06323e;
+      margin-bottom: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .card-title .accent-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background: #3fabb8;
+      border-radius: 10px;
+      margin-right: 6px;
+    }
+
+    .card-content {
+      color: #1f3d48;
+      font-size: 0.96rem;
+    }
+
+    .card-content p {
+      margin-bottom: 0.75rem;
+    }
+
+    .card-content ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .card-content li {
+      padding: 0.3rem 0 0.3rem 1.1rem;
+      position: relative;
+    }
+
+    .card-content li::before {
+      content: "—";
+      position: absolute;
+      left: 0;
+      color: #489aa6;
+      font-weight: 300;
+    }
+
+    .badge-soft {
+      display: inline-block;
+      background: #dceff2;
+      color: #0c4d59;
+      padding: 0.2rem 0.8rem;
+      border-radius: 40px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      margin-right: 0.2rem;
+    }
+
+    .tip-card {
+      background: #f0f9fa;
+      border-left: 4px solid #3fabb8;
+    }
+
+    .faq-summary {
+      margin-top: 0.3rem;
+    }
+
+    .faq-summary details {
+      margin-bottom: 0.7rem;
+      border-bottom: 1px dashed #d3e2e7;
+      padding-bottom: 0.5rem;
+    }
+
+    .faq-summary summary {
+      font-weight: 500;
+      color: #134853;
+      cursor: pointer;
+      padding: 0.3rem 0;
+    }
+
+    .faq-summary summary::marker {
+      color: #3fabb8;
+    }
+
+    .faq-summary p {
+      margin-top: 0.4rem;
+      padding-left: 0.8rem;
+      color: #2c4b56;
+    }
+
+    .divider-light {
+      border: none;
+      height: 1px;
+      background: linear-gradient(to right, transparent, #b3d6dd, transparent);
+      margin: 2rem 0 1.2rem;
+    }
+
+    .footer-note {
+      color: #406b75;
+      font-size: 0.9rem;
+      text-align: center;
+      padding: 1.8rem 0 1rem;
+      border-top: 1px solid #d5e6ea;
+      margin-top: 2.5rem;
+    }
+
+    .footer-note a {
+      color: #1c6a78;
+      text-decoration: none;
+      border-bottom: 1px dotted #6baebc;
+    }
+
+    .footer-note a:hover {
+      border-bottom-style: solid;
+      color: #08424f;
+    }
+
+    /* 移动端微调 */
+    @media (max-width: 480px) {
+      .hero-module h1 {
+        font-size: 1.6rem;
+      }
+      .grid-card {
+        padding: 1.5rem 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <!-- hero 区：知识库入口说明 -->
+  <header class="hero-module">
+    <h1>📘 足球比分 · 信息库</h1>
+    <p class="hero-tagline">
+      从基础数据到常规解读，聚合关于足球比分的常见知识点与实用线索，方便随时查阅。
+    </p>
+    <div class="hero-link-sentence">
+      如果您想直接了解实时动态，可从这里进入
+      <a href="https://portal-footballscore.com">足球比分</a>
+      页面，浏览常规赛事信息。
+    </div>
+  </header>
+
+  <!-- 网格卡片区 – 目录感布局 -->
+  <div class="knowledge-grid">
+
+    <!-- 卡片 1 : 说明区 -->
+    <section class="grid-card">
+      <div class="card-title">
+        <span class="accent-dot"></span> 说明区
+      </div>
+      <div class="card-content">
+        <p>本页作为衔接性入口，主要整理与<strong>足球比分</strong>相关的背景知识、常见释义和使用路径。</p>
+        <p>内容侧重客观说明，不包含即时数据推送，旨在帮助新接触者快速建立基本认知。</p>
+        <p><span class="badge-soft">结构</span> 卡片式分类，每个模块独立可读。</p>
+      </div>
+    </section>
+
+    <!-- 卡片 2 : 信息关联区 -->
+    <section class="grid-card">
+      <div class="card-title">
+        <span class="accent-dot"></span> 相关信息区
+      </div>
+      <div class="card-content">
+        <ul>
+          <li>联赛与杯赛的比分记录方式差异</li>
+          <li>常规比分符号：半场/全场、加时、点球</li>
+          <li>常见统计术语：控球率、射正、角球</li>
+          <li>数据更新频次与参考说明</li>
+        </ul>
+        <p style="margin-top:0.6rem;">以上信息可作为浏览 <a href="https://portal-footballscore.com" style="color:#0f5b68;text-decoration:underline;text-underline-offset:2px;">足球比分</a> 时的辅助参考。</p>
+      </div>
+    </section>
+
+    <!-- 卡片 3 : 提示区 (蓝绿 tip) -->
+    <section class="grid-card tip-card">
+      <div class="card-title">
+        <span class="accent-dot"></span> 提示区
+      </div>
+      <div class="card-content">
+        <p>🔹 比分数据通常由多个来源汇总，不同平台展示样式可能略有差异，建议交叉确认。</p>
+        <p>🔹 部分赛事的比分包含伤停补时阶段的进球，最终结果以官方记录为准。</p>
+        <p>🔹 若对特定联赛的积分规则有疑问，可查阅该赛事章程中的相关章节。</p>
+      </div>
+    </section>
+
+    <!-- 卡片 4 : 特点速览 (额外卡片，丰富目录感) -->
+    <section class="grid-card">
+      <div class="card-title">
+        <span class="accent-dot"></span> 特点速览
+      </div>
+      <div class="card-content">
+        <ul>
+          <li>以赛事为基础，提供结构化的比分视图</li>
+          <li>涵盖多级别联赛与杯赛</li>
+          <li>页面布局侧重清晰阅读</li>
+          <li>支持常用设备与浏览器</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 卡片 5 : 场景简述 -->
+    <section class="grid-card">
+      <div class="card-title">
+        <span class="accent-dot"></span> 场景简述
+      </div>
+      <div class="card-content">
+        <p>许多球迷习惯在赛后快速核对结果，或对比不同场次的进球分布。<a href="https://portal-footballscore.com" style="color:#0f5b68;text-decoration:underline;text-underline-offset:2px;">足球比分</a> 页面恰好提供一个集中查看的入口，减少在多个页面之间切换的频次。</p>
+        <p>对于刚接触足球数据的朋友，先了解基本显示规则再浏览，效率更高。</p>
+      </div>
+    </section>
+
+    <!-- 卡片 6 : FAQ 摘要 (部分) -->
+    <section class="grid-card">
+      <div class="card-title">
+        <span class="accent-dot"></span> FAQ 摘要
+      </div>
+      <div class="faq-summary">
+        <details>
+          <summary>比分中的“VS”代表什么？</summary>
+          <p>VS 是 versus 的缩写，表示两队对抗，两侧分别显示主队与客队的当前进球数。</p>
+        </details>
+        <details>
+          <summary>为什么有些比赛显示“–”或“延期”？</summary>
+          <p>通常表示比赛尚未开始、中断或改期，具体原因需查看对应赛事公告。</p>
+        </details>
+        <details>
+          <summary>数据多久更新一次？</summary>
+          <p>普遍在比赛进行期间实时调整，最终赛果会在全场结束后固定。具体刷新频率由各服务方决定。</p>
+        </details>
+      </div>
+    </section>
+
+  </div>
+
+  <hr class="divider-light">
+
+  <!-- 额外说明：入口句 + 温和收束 -->
+  <div style="background: #ffffff; border-radius: 40px; padding: 1.2rem 1.8rem; border: 1px solid #d5e7ec; text-align: center; max-width: 700px; margin: 0.8rem auto 0;">
+    <p style="color: #1e4d59; font-size: 0.98rem;">
+      如果您希望查看直观的比分列表，可以访问
+      <a href="https://portal-footballscore.com" style="color:#0f5b68; font-weight: 500; text-decoration: underline; text-underline-offset: 3px;">足球比分</a>
+      板块，根据页面导航浏览感兴趣的比赛。
+    </p>
+  </div>
+
+  <footer class="footer-note">
+    <p>知识库入口 · 温和导航 &mdash; 内容仅供参考，具体数据以官方发布为准。</p>
+    <p style="margin-top: 0.3rem; font-size: 0.82rem;">页面基于稳定信息结构，无诱导性描述。</p>
+  </footer>
+
+</div>
+</body>
+</html>
